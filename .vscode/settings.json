@@ -1,3 +1,33 @@
 {
-    "java.debug.settings.onBuildFailureProceed": true
+    "java.debug.settings.onBuildFailureProceed": true,
+"labuladong-leetcode.filePath": {
+    "python": {
+        "folder": "leetcode/editor/${endpointType}",
+        "filename": "${kebab-case-name}.${ext}"
+    },
+    "python3": {
+        "folder": "leetcode/editor/${endpointType}",
+        "filename": "${kebab-case-name}.${ext}"
+    },
+    "javascript": {
+        "folder": "leetcode/editor/${endpointType}",
+        "filename": "${kebab-case-name}.${ext}"
+    },
+    "cpp": {
+        "folder": "leetcode/editor/${endpointType}",
+        "filename": "${kebab-case-name}.${ext}"
+    },
+    "golang": {
+        "folder": "leetcode/editor/${endpointType}",
+        "filename": "${snake_case_name}_test.${ext}"
+    },
+    "java": {
+        "folder": "src/main/java/leetcode/editor/${endpointType}",
+        "filename": "${PascalCaseName}.${ext}"
+    },
+    "default": {
+        "folder": "",
+        "filename": "${id}.${kebab-case-name}.${ext}"
+    }
+},
 }

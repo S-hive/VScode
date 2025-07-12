@@ -1,0 +1,3 @@
+[submodule "lc-plugin-template"]
+	path = lc-plugin-template
+	url = https://gitee.com/labuladong/lc-plugin-template.git
