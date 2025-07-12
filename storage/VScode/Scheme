@@ -1,0 +1,74 @@
+; 获取列表的非空子集
+(define (nonempty-subsets s)
+  (if (null? s)
+      '()
+      (let ((rest (nonempty-subsets (cdr s))))
+        (append rest  ;上一个子集
+                (map (lambda (t) (cons (car s) t)) rest) ;当前元素加到每个子集前
+                (list (list (car s))))))) ;当前元素单独作为子集
+
+; 获取整数列表中元素和为偶数的非空子集
+(define (even-subsets s)
+  (filter (lambda (s) (even? (apply + s)))
+          (nonempty-subsets s)))
+
+
+
+
+
+
+
+
+
+
+
+
+
+;解释(nonempty - subsets (1 2 3 4 5))
+#|
+初始调用：输入列表 s = (1 2 3 4 5)。
+第一次递归：
+计算 (cdr s)，得到 (2 3 4 5)。
+递归调用 (nonempty - subsets (2 3 4 5))。
+第二次递归：
+对于 (nonempty - subsets (2 3 4 5))，计算 (cdr (2 3 4 5))，得到 (3 4 5)。
+递归调用 (nonempty - subsets (3 4 5))。
+第三次递归：
+对于 (nonempty - subsets (3 4 5))，计算 (cdr (3 4 5))，得到 (4 5)。
+递归调用 (nonempty - subsets (4 5))。
+第四次递归：
+对于 (nonempty - subsets (4 5))，计算 (cdr (4 5))，得到 (5)。
+递归调用 (nonempty - subsets (5))。
+第五次递归：
+对于 (nonempty - subsets (5))，计算 (cdr (5))，得到空列表 ()。
+因为 (null? ()) 为真，根据函数定义返回 ()。
+递归返回与结果构建（从最内层递归开始）：
+第五次递归返回后：在 (nonempty - subsets (5)) 中，rest 为 ()（因为 (nonempty - subsets ()) 返回 ()）。
+(map (lambda (t) (cons (car (5)) t)) rest) 由于 rest 为空，不产生新子集。
+(list (list (car (5)))) 为 ((5))。
+所以 (nonempty - subsets (5)) 返回 ((5))。
+第四次递归返回后：在 (nonempty - subsets (4 5)) 中，rest 为 ((5))（因为 (nonempty - subsets (5)) 返回 ((5))）。
+map 操作：(map (lambda (t) (cons (car (4 5)) t)) rest)，(car (4 5)) 为 4，将 4 加到 rest 中的每个子集前，得到 ((4 5))。
+(list (list (car (4 5)))) 为 ((4))。
+通过 append 合并：append ((5)) ((4 5)) ((4))，得到 ((4) (5) (4 5))，这就是 (nonempty - subsets (4 5)) 的返回结果。
+第三次递归返回后：在 (nonempty - subsets (3 4 5)) 中，rest 为 ((4) (5) (4 5))（因为 (nonempty - subsets (4 5)) 返回 ((4) (5) (4 5))）。
+map 操作：(map (lambda (t) (cons (car (3 4 5)) t)) rest)，(car (3 4 5)) 为 3，得到 ((3 4) (3 5) (3 4 5))。
+(list (list (car (3 4 5)))) 为 ((3))。
+通过 append 合并：append ((4) (5) (4 5)) ((3 4) (3 5) (3 4 5)) ((3))，得到 ((3) (4) (5) (3 4) (3 5) (4 5) (3 4 5))，这就是 (nonempty - subsets (3 4 5)) 的返回结果。
+第二次递归返回后：在 (nonempty - subsets (2 3 4 5)) 中，rest 为 ((3) (4) (5) (3 4) (3 5) (4 5) (3 4 5))（因为 (nonempty - subsets (3 4 5)) 返回 ((3) (4) (5) (3 4) (3 5) (4 5) (3 4 5))）。
+map 操作：(map (lambda (t) (cons (car (2 3 4 5)) t)) rest)，(car (2 3 4 5)) 为 2，得到 ((2 3) (2 4) (2 5) (2 3 4) (2 3 5) (2 4 5) (2 3 4 5))。
+(list (list (car (2 3 4 5)))) 为 ((2))。
+通过 append 合并：append ((3) (4) (5) (3 4) (3 5) (4 5) (3 4 5)) ((2 3) (2 4) (2 5) (2 3 4) (2 3 5) (2 4 5) (2 3 4 5)) ((2))，得到 ((2) (3) (4) (5) (2 3) (2 4) (2 5) (3 4) (3 5) (4 5) (2 3 4) (2 3 5) (2 4 5) (3 4 5) (2 3 4 5))，这就是 (nonempty - subsets (2 3 4 5)) 的返回结果。
+第一次递归返回后：在 (nonempty - subsets (1 2 3 4 5)) 中，rest 为 ((2) (3) (4) (5) (2 3) (2 4) (2 5) (3 4) (3 5) (4 5) (2 3 4) (2 3 5) (2 4 5) (3 4 5) (2 3 4 5))（因为 (nonempty - subsets (2 3 4 5)) 返回上述结果）。
+map 操作：(map (lambda (t) (cons (car (1 2 3 4 5)) t)) rest)，(car (1 2 3 4 5)) 为 1，得到 ((1 2) (1 3) (1 4) (1 5) (1 2 3) (1 2 4) (1 2 5) (1 3 4) (1 3 5) (1 4 5) (1 2 3 4) (1 2 3 5) (1 2 4 5) (1 3 4 5) (1 2 3 4 5))。
+(list (list (car (1 2 3 4 5)))) 为 ((1))。
+通过 append 合并：append ((2) (3) (4) (5) (2 3) (2 4) (2 5) (3 4) (3 5) (4 5) (2 3 4) (2 3 5) (2 4 5) (3 4 5) (2 3 4 5)) ((1 2) (1 3) (1 4) (1 5) (1 2 3) (1 2 4) (1 2 5) (1 3 4) (1 3 5) (1 4 5) (1 2 3 4) (1 2 3 5) (1 2 4 5) (1 3 4 5) (1 2 3 4 5)) ((1))，得到包含列表 (1 2 3 4 5) 所有非空子集的列表。
+
+|#
+ ;((> num2 num1) (-1)) 在 Scheme 语言中，每个括号都会进行函数调用，例如直接输入 0 会返回 0，但输入不是函数的内容会报错。
+ ;(lambda (<param1> <param2> ...) <body>)
+ ;当 total 是一个变量时，写成 (total) 这种形式是错误的，因为这样的写法通常是用来调用函数的，而变量不能以这种方式被调用
+ ;composed 中的 lambda表达式与repeat中的lambda表达式的区别在于，composed中的lambda表达式相‘抵消’，((repeat square 3) 3) ； (lambda (x) (square (square (square x)))) ，并且 x 的值为 3 。
+ #|(repeat square 1) 等同于 (compose square (lambda (x) x)) 。
+根据 compose 函数的定义，(compose square (lambda (x) x)) 会创建一个新函数 (lambda (x) (square ((lambda (x) x) x))) 。
+由于 ((lambda (x) x) x) 就是 x ，所以 (compose square (lambda (x) x)) 简化后为 (lambda (x) (square x)) 。|#

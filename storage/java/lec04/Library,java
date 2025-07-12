@@ -1,0 +1,95 @@
+import java.util.ArrayList;
+import java.util.List;
+public class Library  {
+// Add the missing implementation to this class为这个类添加缺失的实现
+public String libraryName;
+public List<Book> books;
+/*public Library(String name){
+    this.libraryName = name;
+}*/
+public Library(String name) {
+    this.libraryName = name;
+    this.books = new ArrayList<>();
+}
+
+void addBook(Book book){
+    books.add(book);
+}
+static void printOpeningHours(){
+    System.out.println("开放时间:9:00-17:00");
+}
+void printAddress(){
+    System.out.println(this.libraryName + " 地址:");
+}
+void borrowBook(String bookTitle){
+    for (Book boot:books){
+        //if (boot.title == bookTitle){ 比较的是内存地址，而不是内容
+        if (boot.getTitle().equals(bookTitle)){
+            if (boot.borrowed == false){
+                boot.borrowed();
+                books.remove(boot);
+            }
+                else{
+                    System.out.println("该书已被借出");
+                }
+                break;
+        }
+    }
+}
+void returnBook(String booktitle){
+    for (Book boot:books){
+        if (boot.getTitle().equals(bookTitle)){
+            if (boot.borrowed == false){
+                boot.rented();
+                books.add(boot);
+            }
+            break;
+        }
+    }
+}
+void printAvailableBooks(){
+    for (Book boot:books){
+        System.out.print(boot.title+",");
+    }
+}
+public static void main(String[] args) {
+// Create two libraries创建两个库
+Library firstLibrary = new Library("10 Main St.");
+Library secondLibrary = new Library("228 Liberty St.");
+// Add four books to the first library把四本书添加到第一家图书馆
+firstLibrary.addBook(new Book("The Da Vinci Code"));
+firstLibrary.addBook(new Book("Le Petit Prince"));
+firstLibrary.addBook(new Book("A Tale of Two Cities"));
+firstLibrary.addBook(new Book("The Lord of the Rings"));
+// Print opening hours and the addresses打印营业时间和地址
+System.out.println("Library hours:");
+printOpeningHours();
+System.out.println();
+System.out.println("Library addresses:");
+firstLibrary.printAddress();
+secondLibrary.printAddress();
+System.out.println();
+// Try to borrow The Lords of the Rings from both libraries试着从这两家图书馆借阅《指环王》。
+System.out.println("Borrowing The Lord of the Rings:");
+firstLibrary.borrowBook("The Lord of the Rings");
+firstLibrary.borrowBook("The Lord of the Rings");
+secondLibrary.borrowBook("The Lord of the Rings");
+System.out.println();
+// Print the titles of all available books from both libraries打印两个图书馆中所有可借阅书籍的书名
+System.out.println("Books available in the first library:");
+firstLibrary.printAvailableBooks();
+System.out.println();
+System.out.println("Books available in the second library:");
+secondLibrary.printAvailableBooks();
+System.out.println();
+Library.java
+// Return The Lords of the Rings to the first library将《指环王》归还到第一家图书馆
+System.out.println("Returning The Lord of the Rings:");
+firstLibrary.returnBook("The Lord of the Rings");
+System.out.println();
+// Print the titles of available from the first library打印第一个图书馆中可借阅书籍的书名
+System.out.println("Books available in the first library:");
+firstLibrary.printAvailableBooks();
+}
+    }
+}
